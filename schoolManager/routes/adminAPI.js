@@ -161,7 +161,11 @@ router.get("/login", (req, res)=>{
   res.render("login");
 })
 router.get("/protected", (req, res)=>{
-  res.render("details");
+  res.render("details", {
+    studentsSent:students,
+    staffsSent:staffs,
+    coursesSent:courses
+  })
 })
 
 module.exports = router;

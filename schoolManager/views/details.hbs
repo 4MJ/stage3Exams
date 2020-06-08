@@ -1,1 +1,44 @@
-<p>details works</p>
+<div class="container">
+   <div class="d-flex">
+      {{#each studentsSent}}
+          <div class="card ml-3">
+                <div class="card-header">{{name}}</div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div class="h4">ID: {{id}}</div>
+                        <div class="h4">Gender: {{gender}}</div>
+                        <div class="h4">Course: {{course}}</div>
+                        <div class="h4">level {{level}}</div>
+                    </div>
+                </div>  
+            </div>
+      {{/each}}
+   </div>
+   <div class="d-flex">
+      {{#each staffsSent}}
+          <div class="card ml-3">
+                <div class="card-header">{{name}}</div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div class="h4">ID: {{id}}</div>
+                        <div class="h4">Gender: {{gender}}</div>
+                        <div class="h4">Role: {{role}}</div>
+                    </div>
+                </div>  
+            </div>
+      {{/each}}
+   </div>
+   <div class="d-flex">
+      {{#each coursesSent}}
+          <div class="card ml-3">
+                <div class="card-header">{{name}}</div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div class="h4">ID: {{id}}</div>
+                        <div class="h4">Course Description: {{description}}</div>
+                    </div>
+                </div>  
+            </div>
+      {{/each}}
+   </div>
+</div>
