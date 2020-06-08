@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', apiRouter);
+app.use("/login", apiRouter);
 app.use('/students', simpleRouter);
 
 // catch 404 and forward to error handler
@@ -45,5 +46,50 @@ app.use(function(err, req, res, next) {
 app.listen('3000',()=>{
   console.log(`listening on http://127.0.0.1:3000`);
 })
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+const generateAuthToken = () => {
+  return crypto.randomBytes(30).toString('hex');
+}
+const authTokens = {};
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    const hashedPassword = getHashedPassword(password);
+
+    const user = users.find(u => {
+        return u.email === email && hashedPassword === u.password
+    });
+
+    if (user) {
+        const authToken = generateAuthToken();
+
+        // Store authentication token
+        authTokens[authToken] = user;
+
+        // Setting the auth token in cookies
+        res.cookie('AuthToken', authToken);
+
+        // Redirect user to the protected page
+        res.redirect('/protected');
+    } else {
+        res.render('login', {
+            message: 'Invalid username or password',
+            messageClass: 'alert-danger'
+        });
+    }
+});
+
+app.use((req, res, next) => {
+  // Get auth token from the cookies
+  const authToken = req.cookies['AuthToken'];
+
+  // Inject the user to the request
+  req.user = authTokens[authToken];
+
+  next();
+});
 
 module.exports = app;

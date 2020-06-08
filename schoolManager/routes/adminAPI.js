@@ -68,15 +68,15 @@ router.get('/', function(req, res, next) {
 
 /*Viewing all Students */
 router.get("/students",(req, res)=>{
-  res.send("the students");
+  res.send(students);
 })
 /* Viewing all staff*/
 router.get("/staffs", (req, res)=>{
-  res.send("the staff");
+  res.send(staffs);
 })
 //viewing all courses
 router.get("/courses", (req, res)=>{
-  res.send("the courses");
+  res.send(courses);
 })
 
 //get students by api
@@ -84,6 +84,12 @@ router.get('/students/:id', (req, res)=>{
   var id= req.params.id-1;
   res.json(students[id]);
 })
+//add new student
+router.post("/students", (req,res)=>{
+  var studentInfo = req.body;  
+  students.push(studentInfo);
+  res.json(students);
+});
 //update student
 router.patch("/students/:id", (req,res)=>{
   var id = req.params.id-1;
@@ -92,12 +98,24 @@ router.patch("/students/:id", (req,res)=>{
   students[id] = studentToUpdate;
   res.send(students);
 })
+//delete Student
+router.delete("/students/:id",(req,res)=>{
+  var id = req.params.id-1;
+  students = students.splice(id);
+  res.json(students);
+});
 
 //get staff by api
 router.get('/staffs/:id', (req, res)=>{
   var id= req.params.id-1;
   res.json(staffs[id]);
 })
+//add staff
+router.post("/staff", (req,res)=>{
+  var staffInfo = req.body;  
+  staffs.push(staffInfo);
+  res.json(staffs);
+});
 //update staff
 router.patch("/staffs/:id", (req,res)=>{
   var id = req.params.id-1;
@@ -106,12 +124,24 @@ router.patch("/staffs/:id", (req,res)=>{
   staffs[id] = staffToUpdate;
   res.send(staffs);
 })
+//delete Staff
+router.delete("/staffs/:id",(req,res)=>{
+  var id = req.params.id-1;
+  staffs = staffs.splice(id);
+  res.json(staffs);
+});
 
 //get courses by api
 router.get('/courses/:id', (req, res)=>{
   var id= req.params.id-1;
   res.json(courses[id]);
 })
+//add a new course
+router.post("/courses", (req,res)=>{
+  var courseInfo = req.body;  
+  courses.push(courseInfo);
+  res.json(courses);
+});
 //update course
 router.patch("/staffs/:id", (req,res)=>{
   var id = req.params.id-1;
@@ -119,6 +149,19 @@ router.patch("/staffs/:id", (req,res)=>{
   courseToUpdate = req.body;
   courses[id] = courseToUpdate;
   res.send(courses);
+})
+//delete course
+router.delete("/courses",(req,res)=>{
+  var id = req.params.id-1;
+  courses= courses.splice(id);
+  res.json(courses);
+});
+
+router.get("/login", (req, res)=>{
+  res.render("login");
+})
+router.get("/protected", (req, res)=>{
+  res.render("details");
 })
 
 module.exports = router;
